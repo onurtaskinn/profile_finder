@@ -27,7 +27,7 @@ const TournamentPage = ({
     }
   };
 
-  // Helper function to render a course node
+  // Helper function to render a course node with name instead of image
   const renderCourseNode = (course, isWinner = false, isCurrentMatch = false) => {
     if (!course) {
       return <div className="course-node empty"></div>;
@@ -35,13 +35,7 @@ const TournamentPage = ({
     
     return (
       <div className={`course-node ${isWinner ? 'winner' : ''} ${isCurrentMatch ? 'current-match' : ''}`}>
-        <img 
-          src={course.image} 
-          alt={course.name}
-          onError={(e) => {
-            e.target.src = 'https://via.placeholder.com/60x40/FF8C00/FFFFFF?text=C';
-          }}
-        />
+        <span className="course-name">{course.name}</span>
       </div>
     );
   };

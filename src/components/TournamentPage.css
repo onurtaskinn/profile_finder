@@ -41,7 +41,7 @@
 /* Main Tournament Container */
 .tournament-container {
   display: grid;
-  grid-template-columns: 40% 60%;
+  grid-template-columns:50% 50%;
   height: 100vh;
   position: relative;
 }
@@ -234,9 +234,9 @@
 .progress-container {
   position: absolute;
   bottom: 1rem;
-  left: 70%;
+  left: 75%;
   transform: translateX(-50%);
-  width: 50%;
+  width: 40%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -526,5 +526,84 @@
   
   .bracket-lines {
     display: none; /* Hide lines on mobile for clarity */
+  }
+}
+
+
+
+/* Course name styling in bracket nodes */
+.course-node .course-name {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #2C5F7F;
+  text-align: center;
+  line-height: 1.1;
+  padding: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+}
+
+.course-node.winner .course-name {
+  color: #2C5F7F;
+  font-weight: 600;
+}
+
+.course-node.current-match .course-name {
+  color: #FF4444;
+  font-weight: 600;
+}
+
+/* Adjust node sizes for text */
+.course-node {
+  width: 80px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.final-match .course-node {
+  width: 100px;
+  height: 65px;
+}
+
+.final-match .course-node .course-name {
+  font-size: 0.8rem;
+}
+
+/* Responsive text sizes */
+@media (max-width: 1024px) {
+  .course-node {
+    width: 70px;
+    height: 45px;
+  }
+  
+  .course-node .course-name {
+    font-size: 0.65rem;
+  }
+  
+  .final-match .course-node {
+    width: 85px;
+    height: 55px;
+  }
+}
+
+@media (max-width: 768px) {
+  .course-node {
+    width: 60px;
+    height: 40px;
+  }
+  
+  .course-node .course-name {
+    font-size: 0.6rem;
+  }
+  
+  .final-match .course-node {
+    width: 75px;
+    height: 50px;
   }
 }
