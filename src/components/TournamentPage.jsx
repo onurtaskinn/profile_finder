@@ -8,6 +8,17 @@ const TournamentPage = ({
   progressPercentage, 
   roundInfo 
 }) => {
+
+    // Helper function to count completed matches
+    const getCompletedMatches = (bracket) => {
+    if (!bracket) return 0;
+    let completed = 0;
+    for (let round = 1; round <= 4; round++) {
+        const matches = bracket.rounds[round]?.matches || [];
+        completed += matches.filter(match => match.completed).length;
+    }
+    return completed;
+    };    
   
   // Handle course selection
   const handleCourseSelect = (courseId) => {
@@ -32,10 +43,6 @@ const TournamentPage = ({
   return (
     <div className="tournament-page">
       {/* Header Section */}
-      <div className="tournament-header">
-        <h1 className="round-title">{roundInfo?.name || 'Round'}</h1>
-        <p className="round-subtitle">{roundInfo?.subtitle || 'Pick your favorite'}</p>
-      </div>
 
       {/* Main Tournament Container */}
       <div className="tournament-container">
@@ -56,6 +63,10 @@ const TournamentPage = ({
 
         {/* Right Panel - Voting Area */}
         <div className="voting-panel">
+          <div className="tournament-header">
+              <h1 className="round-title">{roundInfo?.name || 'Round'}</h1>
+              <p className="round-subtitle">{roundInfo?.subtitle || 'Pick your favorite'}</p>
+          </div>            
           <div className="voting-content">
             <div className="match-container">
               {/* Course Cards */}
@@ -116,17 +127,17 @@ const TournamentPage = ({
       </div>
 
       {/* Progress Bar */}
-      <div className="progress-container">
-        <div className="progress-bar">
-          <div 
-            className="progress-fill"
-            style={{ width: `${progressPercentage}%` }}
-          ></div>
+        <div className="progress-container">
+            <div className="progress-bar">
+                <div 
+                className="progress-fill"
+                style={{ width: `${(getCompletedMatches(bracket) / 15) * 100}%` }}
+                ></div>
+            </div>
+            <div className="progress-text">
+                <span>{getCompletedMatches(bracket)}/15 seçim tamamlandı</span>
+            </div>
         </div>
-        <div className="progress-text">
-          <span>{Math.round(progressPercentage)}% Tamamlandı</span>
-        </div>
-      </div>
     </div>
   );
 };
