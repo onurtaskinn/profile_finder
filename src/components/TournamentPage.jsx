@@ -46,13 +46,41 @@ const TournamentPage = ({
     );
   };
 
-  // Helper function to check if a course is in current match (only direct match, not ancestors)
-  const isInCurrentMatch = (course) => {
+  // Helper function to check if a course is in current match (only current round match)
+  const isInCurrentMatch = (course, roundNumber, matchIndex) => {
     if (!currentMatch || !course) return false;
-    // Only highlight if this course is directly in the current active match
-    return (currentMatch.course1?.id === course.id || currentMatch.course2?.id === course.id) && 
-          !currentMatch.completed;
+    
+    // Only highlight if this is the exact current match being voted on
+    const isCurrentRound = bracket?.currentRound === roundNumber;
+    const isCurrentMatchIndex = currentMatch.matchIndex === matchIndex;
+    const isCourseInMatch = (currentMatch.course1?.id === course.id || currentMatch.course2?.id === course.id);
+    
+    return isCurrentRound && isCurrentMatchIndex && isCourseInMatch && !currentMatch.completed;
   };
+
+  // Helper function to get immediate winner for next round (before round completion)
+  const getImmediateWinner = (fromRound, matchIndex1, matchIndex2 = null) => {
+    const matches = bracket?.rounds[fromRound]?.matches || [];
+    
+    if (matchIndex2 === null) {
+      // Single match winner
+      const match = matches[matchIndex1];
+      if (match?.winner) {
+        return match.course1.id === match.winner ? match.course1 : match.course2;
+      }
+    } else {
+      // Two matches - return both winners if available
+      const match1 = matches[matchIndex1];
+      const match2 = matches[matchIndex2];
+      
+      const winner1 = match1?.winner ? (match1.course1.id === match1.winner ? match1.course1 : match1.course2) : null;
+      const winner2 = match2?.winner ? (match2.course1.id === match2.winner ? match2.course1 : match2.course2) : null;
+      
+      return { winner1, winner2 };
+    }
+    
+    return null;
+  };  
 
   // Helper function to get winner for a match
   // Fixed helper function to get winner for a match
@@ -94,15 +122,15 @@ const TournamentPage = ({
         {/* Left Panel - Tournament Bracket */}
         <div className="bracket-panel">
           <div className="bracket-content">
-            <h3 className="bracket-title">Tournament Bracket</h3>
+            {/* <h3 className="bracket-title">Tournament Bracket</h3> */}
             <div className="tournament-bracket">
               {/* Round 1 Left Side */}
               <div className="bracket-column round-1-left">
                 {bracket?.rounds[1]?.matches.slice(0, 4).map((match, index) => (
                   <div key={`r1-left-${index}`} className="bracket-match">
                     <div className="match-pair">
-                      {renderCourseNode(match.course1, match.winner === match.course1.id, isInCurrentMatch(match.course1))}
-                      {renderCourseNode(match.course2, match.winner === match.course2.id, isInCurrentMatch(match.course2))}
+                      {renderCourseNode(match.course1, match.winner === match.course1.id, isInCurrentMatch(match.course1, 1, index))}
+                      {renderCourseNode(match.course2, match.winner === match.course2.id, isInCurrentMatch(match.course2, 1, index))}
                     </div>
                   </div>
                 ))}
@@ -112,18 +140,20 @@ const TournamentPage = ({
               <div className="bracket-column round-2-left">
                 {[0, 1].map(index => {
                   const match = bracket?.rounds[2]?.matches[index];
+                  const immediateWinners = getImmediateWinner(1, index * 2, index * 2 + 1);
+                  
                   return (
                     <div key={`r2-left-${index}`} className="bracket-match">
                       <div className="match-pair">
                         {match ? (
                           <>
-                            {renderCourseNode(match.course1, match.winner === match.course1?.id, isInCurrentMatch(match.course1))}
-                            {renderCourseNode(match.course2, match.winner === match.course2?.id, isInCurrentMatch(match.course2))}
+                            {renderCourseNode(match.course1, match.winner === match.course1?.id, isInCurrentMatch(match.course1, 2, index))}
+                            {renderCourseNode(match.course2, match.winner === match.course2?.id, isInCurrentMatch(match.course2, 2, index))}
                           </>
                         ) : (
                           <>
-                            {renderCourseNode(null)}
-                            {renderCourseNode(null)}
+                            {renderCourseNode(immediateWinners?.winner1)}
+                            {renderCourseNode(immediateWinners?.winner2)}
                           </>
                         )}
                       </div>
@@ -138,18 +168,18 @@ const TournamentPage = ({
                   <div className="match-pair">
                     {bracket?.rounds[3]?.matches[0] ? (
                       <>
-                        {renderCourseNode(bracket.rounds[3].matches[0].course1, bracket.rounds[3].matches[0].winner === bracket.rounds[3].matches[0].course1?.id, isInCurrentMatch(bracket.rounds[3].matches[0].course1))}
-                        {renderCourseNode(bracket.rounds[3].matches[0].course2, bracket.rounds[3].matches[0].winner === bracket.rounds[3].matches[0].course2?.id, isInCurrentMatch(bracket.rounds[3].matches[0].course2))}
+                        {renderCourseNode(bracket.rounds[3].matches[0].course1, bracket.rounds[3].matches[0].winner === bracket.rounds[3].matches[0].course1?.id, isInCurrentMatch(bracket.rounds[3].matches[0].course1, 3, 0))}
+                        {renderCourseNode(bracket.rounds[3].matches[0].course2, bracket.rounds[3].matches[0].winner === bracket.rounds[3].matches[0].course2?.id, isInCurrentMatch(bracket.rounds[3].matches[0].course2, 3, 0))}
                       </>
                     ) : (
                       <>
-                        {renderCourseNode(null)}
-                        {renderCourseNode(null)}
+                        {renderCourseNode(getImmediateWinner(2, 0))}
+                        {renderCourseNode(getImmediateWinner(2, 1))}
                       </>
                     )}
                   </div>
                 </div>
-              </div>
+              </div>           
 
               {/* Final */}
               <div className="bracket-column final">
@@ -157,18 +187,18 @@ const TournamentPage = ({
                   <div className="match-pair">
                     {bracket?.rounds[4]?.matches[0] ? (
                       <>
-                        {renderCourseNode(bracket.rounds[4].matches[0].course1, bracket.rounds[4].matches[0].winner === bracket.rounds[4].matches[0].course1?.id, isInCurrentMatch(bracket.rounds[4].matches[0].course1))}
-                        {renderCourseNode(bracket.rounds[4].matches[0].course2, bracket.rounds[4].matches[0].winner === bracket.rounds[4].matches[0].course2?.id, isInCurrentMatch(bracket.rounds[4].matches[0].course2))}
+                        {renderCourseNode(bracket.rounds[4].matches[0].course1, bracket.rounds[4].matches[0].winner === bracket.rounds[4].matches[0].course1?.id, isInCurrentMatch(bracket.rounds[4].matches[0].course1, 4, 0))}
+                        {renderCourseNode(bracket.rounds[4].matches[0].course2, bracket.rounds[4].matches[0].winner === bracket.rounds[4].matches[0].course2?.id, isInCurrentMatch(bracket.rounds[4].matches[0].course2, 4, 0))}
                       </>
                     ) : (
                       <>
-                        {renderCourseNode(null)}
-                        {renderCourseNode(null)}
+                        {renderCourseNode(getImmediateWinner(3, 0))}
+                        {renderCourseNode(getImmediateWinner(3, 1))}
                       </>
                     )}
                   </div>
                 </div>
-              </div>
+              </div>    
 
               {/* Round 3 Right Side */}
               <div className="bracket-column round-3-right">
@@ -176,85 +206,58 @@ const TournamentPage = ({
                   <div className="match-pair">
                     {bracket?.rounds[3]?.matches[1] ? (
                       <>
-                        {renderCourseNode(bracket.rounds[3].matches[1].course1, bracket.rounds[3].matches[1].winner === bracket.rounds[3].matches[1].course1?.id, isInCurrentMatch(bracket.rounds[3].matches[1].course1))}
-                        {renderCourseNode(bracket.rounds[3].matches[1].course2, bracket.rounds[3].matches[1].winner === bracket.rounds[3].matches[1].course2?.id, isInCurrentMatch(bracket.rounds[3].matches[1].course2))}
+                        {renderCourseNode(bracket.rounds[3].matches[1].course1, bracket.rounds[3].matches[1].winner === bracket.rounds[3].matches[1].course1?.id, isInCurrentMatch(bracket.rounds[3].matches[1].course1, 3, 1))}
+                        {renderCourseNode(bracket.rounds[3].matches[1].course2, bracket.rounds[3].matches[1].winner === bracket.rounds[3].matches[1].course2?.id, isInCurrentMatch(bracket.rounds[3].matches[1].course2, 3, 1))}
                       </>
                     ) : (
                       <>
-                        {renderCourseNode(null)}
-                        {renderCourseNode(null)}
+                        {renderCourseNode(getImmediateWinner(2, 2))}
+                        {renderCourseNode(getImmediateWinner(2, 3))}
                       </>
                     )}
                   </div>
                 </div>
-              </div>
-
+              </div>                 
+              
               {/* Round 2 Right Side */}
               <div className="bracket-column round-2-right">
                 {[2, 3].map(index => {
                   const match = bracket?.rounds[2]?.matches[index];
+                  const immediateWinners = getImmediateWinner(1, index * 2, index * 2 + 1);
+                  
                   return (
                     <div key={`r2-right-${index}`} className="bracket-match">
                       <div className="match-pair">
                         {match ? (
                           <>
-                            {renderCourseNode(match.course1, match.winner === match.course1?.id, isInCurrentMatch(match.course1))}
-                            {renderCourseNode(match.course2, match.winner === match.course2?.id, isInCurrentMatch(match.course2))}
+                            {renderCourseNode(match.course1, match.winner === match.course1?.id, isInCurrentMatch(match.course1, 2, index))}
+                            {renderCourseNode(match.course2, match.winner === match.course2?.id, isInCurrentMatch(match.course2, 2, index))}
                           </>
                         ) : (
                           <>
-                            {renderCourseNode(null)}
-                            {renderCourseNode(null)}
+                            {renderCourseNode(immediateWinners?.winner1)}
+                            {renderCourseNode(immediateWinners?.winner2)}
                           </>
                         )}
                       </div>
                     </div>
                   );
                 })}
-              </div>    
+              </div>              
 
               {/* Round 1 Right Side */}
               <div className="bracket-column round-1-right">
                 {bracket?.rounds[1]?.matches.slice(4, 8).map((match, index) => (
                   <div key={`r1-right-${index}`} className="bracket-match">
                     <div className="match-pair">
-                      {renderCourseNode(match.course1, match.winner === match.course1.id, isInCurrentMatch(match.course1))}
-                      {renderCourseNode(match.course2, match.winner === match.course2.id, isInCurrentMatch(match.course2))}
+                      {renderCourseNode(match.course1, match.winner === match.course1.id, isInCurrentMatch(match.course1, 1, index+4))}
+                      {renderCourseNode(match.course2, match.winner === match.course2.id, isInCurrentMatch(match.course2, 1, index+4))}
                     </div>
                   </div>
                 ))}
-              </div>
+              </div>                                      
 
-              {/* Connecting Lines */}
-              <svg className="bracket-lines" viewBox="0 0 800 400">
-                {/* Round 1 to Round 2 - Left Side */}
-                <path d="M 120 60 L 160 60 L 160 90 L 200 90" stroke="#B8860B" strokeWidth="2" fill="none"/>
-                <path d="M 120 140 L 160 140 L 160 110 L 200 110" stroke="#B8860B" strokeWidth="2" fill="none"/>
-                <path d="M 120 220 L 160 220 L 160 190 L 200 190" stroke="#B8860B" strokeWidth="2" fill="none"/>
-                <path d="M 120 300 L 160 300 L 160 270 L 200 270" stroke="#B8860B" strokeWidth="2" fill="none"/>
-                
-                {/* Round 2 to Round 3 - Left Side */}
-                <path d="M 280 100 L 320 100 L 320 140 L 360 140" stroke="#B8860B" strokeWidth="2" fill="none"/>
-                <path d="M 280 240 L 320 240 L 320 200 L 360 200" stroke="#B8860B" strokeWidth="2" fill="none"/>
-                
-                {/* Round 3 to Final - Left Side */}
-                <path d="M 440 170 L 480 170 L 480 200 L 520 200" stroke="#B8860B" strokeWidth="2" fill="none"/>
-                
-                {/* Round 3 to Final - Right Side */}
-                <path d="M 600 170 L 640 170 L 640 200 L 680 200" stroke="#B8860B" strokeWidth="2" fill="none"/>
-                
-                {/* Round 2 to Round 3 - Right Side */}
-                <path d="M 520 100 L 560 100 L 560 140 L 600 140" stroke="#B8860B" strokeWidth="2" fill="none"/>
-                <path d="M 520 240 L 560 240 L 560 200 L 600 200" stroke="#B8860B" strokeWidth="2" fill="none"/>
-                
-                {/* Round 1 to Round 2 - Right Side */}
-                <path d="M 680 60 L 720 60 L 720 90 L 760 90" stroke="#B8860B" strokeWidth="2" fill="none"/>
-                <path d="M 680 140 L 720 140 L 720 110 L 760 110" stroke="#B8860B" strokeWidth="2" fill="none"/>
-                <path d="M 680 220 L 720 220 L 720 190 L 760 190" stroke="#B8860B" strokeWidth="2" fill="none"/>
-                <path d="M 680 300 L 720 300 L 720 270 L 760 270" stroke="#B8860B" strokeWidth="2" fill="none"/>
-              </svg>
             </div>            
-
           </div>
         </div>
 

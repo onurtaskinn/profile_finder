@@ -453,21 +453,21 @@
 /* Specific column layouts */
 .round-1-left,
 .round-1-right {
-  height: 80%;
+  height: 100%;
 }
 
 .round-2-left,
 .round-2-right {
-  height: 60%;
+  height: 100%;
 }
 
 .round-3-left,
 .round-3-right {
-  height: 30%;
+  height: 100%;
 }
 
 .final {
-  height: 15%;
+  height: 100%;
 }
 
 .final-match .course-node {
