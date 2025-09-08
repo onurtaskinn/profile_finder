@@ -35,7 +35,7 @@ const TournamentPage = ({
     
     return (
       <div className={`course-node ${isWinner ? 'winner' : ''} ${isCurrentMatch ? 'current-match' : ''}`}>
-        <span className="course-name">{course.name}</span>
+        <span className="course-node-name">{course.name}</span>
       </div>
     );
   };

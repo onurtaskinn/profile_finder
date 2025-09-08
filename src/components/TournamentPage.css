@@ -137,7 +137,7 @@
   width: 280px;
   height: 320px;
   background: #FFFFFF;
-  border-radius: 16px;
+  border-radius: 20px;
   border: 3px solid #B91C3C;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   cursor: pointer;
@@ -388,25 +388,38 @@
   gap: 4px;
 }
 
-
 .course-node {
-  width: 60px;
-  height: 40px;
-  border: 2px solid #B91C3C;
+  width: 100px !important;
+  height: 60px !important;
+  border: 2px solid #580000;
   border-radius: 8px;
   background: #FFE8ED;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   transition: all 0.3s ease;
+  padding: 4px;
+  gap: 2px;
 }
 
-.course-node img {
-  width: 100%;
+
+.course-node-name {
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: #2c3e50;
+  text-align: center;
+  line-height: 1.1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
   height: 100%;
-  object-fit: cover;
-  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .course-node.empty {
@@ -421,22 +434,64 @@
   animation: winnerGlow 1s ease-in-out;
 }
 
-@keyframes winnerGlow {
-  0% {
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+.course-node.current-match {
+  border-color: #353535;
+  border-width: 10px !important;
+  animation: currentMatchPulse 2s infinite;
+}
+
+.course-node.winner .course-node-name {
+  color: #2C5F7F;
+  font-weight: 600;
+}
+
+.course-node.current-match .course-node-name {
+  color: #FF4444;
+  font-weight: 600;
+}
+
+/* Final match larger nodes */
+.final-match .course-node {
+  width: 110px !important;
+  height: 110px !important;
+}
+
+.final-match .course-node-name {
+  font-size: 0.7rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .course-node {
+    width: 100px;
+    height: 70px;
   }
-  50% {
-    box-shadow: 0 0 20px rgba(76, 175, 80, 0.8);
+  
+  .course-node-name {
+    font-size: 0.6rem;
   }
-  100% {
-    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+  
+  .final-match .course-node {
+    width: 120px;
+    height: 85px;
   }
 }
 
-.course-node.current-match {
-  border-color: #FF4444;
-  border-width: 3px;
-  animation: currentMatchPulse 2s infinite;
+@media (max-width: 768px) {
+  .course-node {
+    width: 80px;
+    height: 60px;
+    gap: 1px;
+  }
+  
+  .course-node-name {
+    font-size: 0.55rem;
+  }
+  
+  .final-match .course-node {
+    width: 100px;
+    height: 75px;
+  }
 }
 
 @keyframes currentMatchPulse {
