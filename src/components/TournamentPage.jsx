@@ -76,23 +76,7 @@ const TournamentPage = ({
     return null;
   };  
 
-  // Helper function to get winner for a match
-  // Fixed helper function to get winner for a match
-  const getMatchWinner = (round, matchIndex) => {
-    const matches = bracket?.rounds[round]?.matches || [];
-    const match = matches[matchIndex];
-    if (!match || !match.winner) return null;
-    return match.course1.id === match.winner ? match.course1 : match.course2;
-  };
 
-  // Helper function to get winners from previous round for pairing
-  const getRoundWinners = (round) => {
-    const matches = bracket?.rounds[round]?.matches || [];
-    return matches.map(match => {
-      if (!match.winner) return null;
-      return match.course1.id === match.winner ? match.course1 : match.course2;
-    }).filter(Boolean);
-  };
 
   // If no current match, show loading or completion message
   if (!currentMatch) {

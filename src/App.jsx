@@ -4,7 +4,7 @@ import './App.css';
 // Import components (we'll create these in later phases)
 import LandingPage from './components/LandingPage';
 import TournamentPage from './components/TournamentPage';
-import ResultsPage from './components/ResultsPage';
+import TierlistPage from './components/TierlistPage'
 
 // Import data and logic
 import { courses } from './data/courses';
@@ -25,6 +25,7 @@ function App() {
   // Tournament state
   const [tournamentBracket, setTournamentBracket] = useState(null);
   const [tierList, setTierList] = useState(null);
+  const [originalTierList, setOriginalTierList] = useState(null);
 
   // Start tournament - called from Landing page
   const startTournament = () => {
@@ -42,10 +43,11 @@ function App() {
 
     // Check if tournament is complete
     if (isTournamentComplete(updatedBracket)) {
-      // Generate tier list and move to results
+      // Generate tier list and move to tierlist page
       const finalTierList = generateTierList(updatedBracket.finalRanking);
       setTierList(finalTierList);
-      setCurrentPage('results');
+      setOriginalTierList(finalTierList); // Store original for reset
+      setCurrentPage('tierlist');
     }
   };
 
@@ -71,6 +73,7 @@ function App() {
     setCurrentPage('landing');
     setTournamentBracket(null);
     setTierList(null);
+    setOriginalTierList(null);
   };
 
   // Render current page
@@ -93,10 +96,10 @@ function App() {
             roundInfo={roundInfo}
           />
         );
-      
-      case 'results':
+
+      case 'tierlist':
         return (
-          <ResultsPage 
+          <TierlistPage 
             tierList={tierList}
             onUpdateTierList={updateTierList}
             onFindProfile={findProfile}

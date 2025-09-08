@@ -1,0 +1,283 @@
+/* TierlistPage.css - Tierlist page styles */
+
+.tierlist-page {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #FFF8DC, #FFFACD);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 2rem;
+}
+
+/* Header Section */
+.tierlist-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.tierlist-header h1 {
+  font-size: 2.5rem;
+  color: #2C5F7F;
+  margin-bottom: 0.5rem;
+}
+
+.tierlist-header p {
+  font-size: 1.2rem;
+  color: #666666;
+  margin: 0;
+}
+
+/* Tierlist Container */
+.tierlist-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Individual Tier */
+.tier-container {
+  display: flex;
+  min-height: 120px;
+  background: var(--tier-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.tier-container.drag-over {
+  transform: scale(1.02);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(45deg, var(--tier-color), rgba(255, 255, 255, 0.2));
+}
+
+.tier-container.drag-over::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  border: 3px dashed white;
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+/* Tier Header */
+.tier-header {
+  min-width: 150px;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 12px 0 0 12px;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.tier-label {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.tier-description {
+  font-size: 1rem;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+/* Tier Content */
+.tier-content {
+  flex: 1;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.courses-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  width: 100%;
+  align-items: center;
+  min-height: 60px;
+}
+
+/* Course Cards */
+.course-card-tier {
+  background: white;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  cursor: grab;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  user-select: none;
+}
+
+.course-card-tier:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-color: white;
+}
+
+.course-card-tier:active {
+  cursor: grabbing;
+  transform: rotate(5deg) scale(0.95);
+}
+
+.course-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2C5F7F;
+  white-space: nowrap;
+}
+
+/* Empty Tier State */
+.empty-tier {
+  color: rgba(255, 255, 255, 0.7);
+  font-style: italic;
+  font-size: 1.1rem;
+  text-align: center;
+  width: 100%;
+  padding: 1rem;
+  border: 2px dashed rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.tier-container.drag-over .empty-tier {
+  border-color: white;
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Action Buttons */
+.tierlist-actions {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.tierlist-actions button {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.profile-button {
+  background: linear-gradient(45deg, #FF6B35, #FF8C00);
+  color: white;
+  box-shadow: 0 4px 16px rgba(255, 107, 53, 0.4);
+}
+
+.profile-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.6);
+}
+
+.reset-button {
+  background: rgba(108, 117, 125, 0.1);
+  color: #6c757d;
+  border: 2px solid #6c757d;
+}
+
+.reset-button:hover {
+  background: #6c757d;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.restart-button {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  border: 2px solid #dc3545;
+}
+
+.restart-button:hover {
+  background: #dc3545;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .tierlist-page {
+    padding: 1.5rem;
+  }
+  
+  .tier-header {
+    min-width: 120px;
+    width: 120px;
+  }
+  
+  .tier-label {
+    font-size: 1.5rem;
+  }
+  
+  .tierlist-actions {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .tierlist-actions button {
+    width: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .tierlist-page {
+    padding: 1rem;
+  }
+  
+  .tierlist-header h1 {
+    font-size: 2rem;
+  }
+  
+  .tier-container {
+    flex-direction: column;
+  }
+  
+  .tier-header {
+    min-width: auto;
+    width: 100%;
+    min-height: 60px;
+    border-radius: 12px 12px 0 0;
+    flex-direction: row;
+    gap: 1rem;
+  }
+  
+  .tier-content {
+    border-radius: 0 0 12px 12px;
+  }
+  
+  .courses-container {
+    justify-content: center;
+  }
+}
+
+/* Drag and Drop Visual Feedback */
+.course-card-tier[draggable="true"] {
+  opacity: 1;
+}
+
+.course-card-tier:hover {
+  cursor: grab;
+}
+
+.course-card-tier:active {
+  cursor: grabbing;
+  opacity: 0.8;
+}
