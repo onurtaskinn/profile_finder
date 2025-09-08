@@ -3,7 +3,7 @@
 .tierlist-page {
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(135deg, #FFF8DC, #FFFACD);
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -18,13 +18,13 @@
 
 .tierlist-header h1 {
   font-size: 2.5rem;
-  color: #2C5F7F;
+  color: #2c3e50;
   margin-bottom: 0.5rem;
 }
 
 .tierlist-header p {
   font-size: 1.2rem;
-  color: #666666;
+  color: #6c757d;
   margin: 0;
 }
 
@@ -135,7 +135,7 @@
 .course-name {
   font-size: 1rem;
   font-weight: 600;
-  color: #2C5F7F;
+  color: #2c3e50;
   white-space: nowrap;
 }
 
@@ -177,14 +177,14 @@
 }
 
 .profile-button {
-  background: linear-gradient(45deg, #FF6B35, #FF8C00);
+  background: linear-gradient(45deg, #DC143C, #B91C3C);
   color: white;
-  box-shadow: 0 4px 16px rgba(255, 107, 53, 0.4);
+  box-shadow: 0 4px 16px rgba(220, 20, 60, 0.4);
 }
 
 .profile-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.6);
+  box-shadow: 0 6px 20px rgba(220, 20, 60, 0.6);
 }
 
 .reset-button {
@@ -200,13 +200,13 @@
 }
 
 .restart-button {
-  background: rgba(220, 53, 69, 0.1);
-  color: #dc3545;
-  border: 2px solid #dc3545;
+  background: rgba(220, 20, 60, 0.1);
+  color: #DC143C;
+  border: 2px solid #DC143C;
 }
 
 .restart-button:hover {
-  background: #dc3545;
+  background: #DC143C;
   color: white;
   transform: translateY(-2px);
 }

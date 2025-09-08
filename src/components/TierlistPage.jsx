@@ -7,10 +7,10 @@ const TierlistPage = ({ tierList, onUpdateTierList, onFindProfile, onRestart }) 
   const [originalTierList] = useState(tierList);
 
   const tierConfig = {
-    S: { label: 'S Tier', color: '#FF6B35', description: 'Exceptional' },
-    A: { label: 'A Tier', color: '#FF8C00', description: 'Great' },
-    B: { label: 'B Tier', color: '#FFB347', description: 'Good' },
-    C: { label: 'C Tier', color: '#FFA500', description: 'Decent' }
+  S: { label: 'S Tier', color: '#B91C3C', description: 'Exceptional' },
+  A: { label: 'A Tier', color: '#DC143C', description: 'Great' },
+  B: { label: 'B Tier', color: '#f14567ff', description: 'Good' },
+  C: { label: 'C Tier', color: '#f993a7ff', description: 'Decent' }
   };
 
   const handleDragStart = (e, course, fromTier) => {

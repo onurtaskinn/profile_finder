@@ -3,7 +3,7 @@
 .landing-page {
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(135deg, #FF8C00, #FFB347, #FFA500);
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -48,9 +48,9 @@
 .landing-title {
   font-size: 3rem;
   font-weight: 700;
-  color: #2C5F7F;
+  color: #2c3e50;
   margin-bottom: 0.5rem;
-  background: linear-gradient(45deg, #2C5F7F, #FF6B35);
+  background: linear-gradient(45deg, #2c3e50, #DC143C);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -90,14 +90,14 @@
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  background: rgba(255, 140, 0, 0.1);
+  background: rgba(220, 20, 60, 0.1);
   padding: 1rem 1.5rem;
   border-radius: 16px;
-  border: 2px solid rgba(255, 140, 0, 0.2);
+  border: 2px solid rgba(220, 20, 60, 0.2);
 }
 
 .step-number {
-  background: linear-gradient(45deg, #FF6B35, #FF8C00);
+  background: linear-gradient(45deg, #DC143C, #B91C3C);
   color: white;
   width: 32px;
   height: 32px;
@@ -110,7 +110,7 @@
 }
 
 .step-text {
-  color: #2C5F7F;
+  color: #2c3e50;
   font-weight: 500;
   font-size: 0.95rem;
 }
@@ -123,8 +123,9 @@
   gap: 1rem;
 }
 
+
 .start-button {
-  background: linear-gradient(45deg, #FF6B35, #FF8C00);
+  background: linear-gradient(45deg, #DC143C, #B91C3C);
   color: white;
   border: none;
   padding: 1.2rem 3rem;
@@ -135,7 +136,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  box-shadow: 0 8px 24px rgba(255, 107, 53, 0.4);
+  box-shadow: 0 8px 24px rgba(220, 20, 60, 0.4);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -158,7 +159,7 @@
 
 .start-button:hover {
   transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 12px 32px rgba(255, 107, 53, 0.6);
+  box-shadow: 0 12px 32px rgba(220, 20, 60, 0.6);
 }
 
 .start-button:active {
