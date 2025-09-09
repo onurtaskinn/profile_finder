@@ -118,10 +118,10 @@ export const isTournamentComplete = (bracket) => {
 // Get round information
 export const getRoundInfo = (roundNumber) => {
   const roundInfo = {
-    1: { name: "Round 1", subtitle: "Pick your favorites", matchCount: 8 },
-    2: { name: "Round 2", subtitle: "Quarter Finals", matchCount: 4 },
-    3: { name: "Round 3", subtitle: "Semi Finals", matchCount: 2 },
-    4: { name: "Final", subtitle: "The ultimate choice", matchCount: 1 }
+    1: { name: "1. Tur", subtitle: "Favori Seçiminiz", matchCount: 8 },
+    2: { name: "2. Tur", subtitle: "Çeyrek Finaller", matchCount: 4 },
+    3: { name: "3. Tur", subtitle: "Yarı Finaller", matchCount: 2 },
+    4: { name: "4. Tur", subtitle: "Final", matchCount: 1 }
   };
   
   return roundInfo[roundNumber] || { name: "Round", subtitle: "", matchCount: 0 };
