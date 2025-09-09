@@ -5,12 +5,65 @@ const TierlistPage = ({ tierList, onUpdateTierList, onFindProfile, onRestart }) 
   const [draggedCourse, setDraggedCourse] = useState(null);
   const [dragOverTier, setDragOverTier] = useState(null);
   const [originalTierList] = useState(tierList);
+  const [isLoading, setIsLoading] = useState(false);
 
   const tierConfig = {
   S: { label: 'S Tier', color: '#B91C3C', description: 'Exceptional' },
   A: { label: 'A Tier', color: '#DC143C', description: 'Great' },
   B: { label: 'B Tier', color: '#f14567ff', description: 'Good' },
   C: { label: 'C Tier', color: '#f993a7ff', description: 'Decent' }
+  };
+
+  // Add this function inside TierlistPage component
+  const handleFindProfile = async () => {
+    setIsLoading(true);
+    try {
+      // Transform tierList to required format
+      const courseList = [];
+      
+      Object.entries(tierList).forEach(([tier, courses]) => {
+        courses.forEach(course => {
+          courseList.push({
+            id: course.id,
+            name: course.name,
+            description: course.description,
+            image: course.image,
+            tier: tier
+          });
+        });
+      });
+
+      const requestData = {
+        course_list: courseList
+      };
+
+      // Make API call
+      const response = await fetch('http://127.0.0.1:8000/find-profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      
+      // For testing - display the response
+      alert(`API Response: ${JSON.stringify(result, null, 2)}`);
+      
+      // Call the original onFindProfile if needed
+      onFindProfile();
+      
+    } catch (error) {
+      console.error('Error calling find-profile API:', error);
+      alert(`Error: ${error.message}`);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleDragStart = (e, course, fromTier) => {
@@ -119,8 +172,12 @@ const TierlistPage = ({ tierList, onUpdateTierList, onFindProfile, onRestart }) 
         <button className="reset-button" onClick={resetTierList}>
           Sıralamayı Sıfırla
         </button>
-        <button className="profile-button" onClick={onFindProfile}>
-          Profilimi Keşfet
+        <button 
+          className="profile-button" 
+          onClick={handleFindProfile}
+          disabled={isLoading}
+        >
+          {isLoading ? 'Analiz Ediliyor...' : 'Profilimi Keşfet'}
         </button>
         <button className="restart-button" onClick={onRestart}>
           Yeniden Başla
