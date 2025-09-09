@@ -38,8 +38,10 @@ const TierlistPage = ({ tierList, onUpdateTierList, onFindProfile, onRestart }) 
         course_list: courseList
       };
 
+      const API_URL = process.env.REACT_APP_API_URL || 'https://profile-finder-backend.onrender.com';
+
       // Make API call
-      const response = await fetch('http://127.0.0.1:8000/find-profile', {
+      const response = await fetch(`${API_URL}/find-profile`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
