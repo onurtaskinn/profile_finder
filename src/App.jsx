@@ -5,6 +5,7 @@ import './App.css';
 import LandingPage from './components/LandingPage';
 import TournamentPage from './components/TournamentPage';
 import TierlistPage from './components/TierlistPage'
+import ProfileResultsPage from './components/ProfileResultsPage';
 
 // Import data and logic
 import { courses } from './data/courses';
@@ -20,12 +21,13 @@ import {
 
 function App() {
   // Page navigation state
-  const [currentPage, setCurrentPage] = useState('landing'); // 'landing', 'tournament', 'results'
+  const [currentPage, setCurrentPage] = useState('landing'); // 'landing', 'tournament', 'tierlist', 'profile-results'
   
   // Tournament state
   const [tournamentBracket, setTournamentBracket] = useState(null);
   const [tierList, setTierList] = useState(null);
   const [originalTierList, setOriginalTierList] = useState(null);
+  const [profileData, setProfileData] = useState(null);
 
   // Start tournament - called from Landing page
   const startTournament = () => {
@@ -74,6 +76,7 @@ function App() {
     setTournamentBracket(null);
     setTierList(null);
     setOriginalTierList(null);
+    setProfileData(null); 
   };
 
   // Render current page
@@ -102,10 +105,21 @@ function App() {
           <TierlistPage 
             tierList={tierList}
             onUpdateTierList={updateTierList}
-            onFindProfile={findProfile}
+            onFindProfile={(profileResult) => {
+              setProfileData(profileResult);
+              setCurrentPage('profile-results');
+            }}
             onRestart={resetApp}
           />
         );
+
+      case 'profile-results':
+        return (
+          <ProfileResultsPage 
+            profileData={profileData}
+            onRestart={resetApp}
+          />
+        );        
       
       default:
         return <LandingPage onStartTournament={startTournament} />;

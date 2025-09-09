@@ -53,11 +53,7 @@ const TierlistPage = ({ tierList, onUpdateTierList, onFindProfile, onRestart }) 
 
       const result = await response.json();
       
-      // For testing - display the response
-      alert(`API Response: ${JSON.stringify(result, null, 2)}`);
-      
-      // Call the original onFindProfile if needed
-      onFindProfile();
+      onFindProfile(result);
       
     } catch (error) {
       console.error('Error calling find-profile API:', error);
