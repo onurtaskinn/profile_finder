@@ -94,7 +94,6 @@ export const advanceWinner = (bracket, matchId, winnerId) => {
 // Create matches for next round
 const createNextRoundMatches = (winners, roundNumber) => {
   const matches = [];
-  const matchesCount = winners.length / 2;
   
   for (let i = 0; i < winners.length; i += 2) {
     matches.push({

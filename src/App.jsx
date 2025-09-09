@@ -65,10 +65,6 @@ function App() {
   const progressPercentage = tournamentBracket ? getProgressPercentage(tournamentBracket) : 0;
   const roundInfo = tournamentBracket ? getRoundInfo(tournamentBracket.currentRound) : null;
 
-  // Handle find profile action (dummy for now)
-  const findProfile = () => {
-    alert('Finding your learning profile... (This will be implemented later)');
-  };
 
   // Reset app to landing page
   const resetApp = () => {
