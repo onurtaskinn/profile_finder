@@ -28,6 +28,7 @@ const TierlistPage = ({ tierList, onUpdateTierList, onFindProfile, onRestart }) 
             name: course.name,
             description: course.description,
             image: course.image,
+            profile_mass: course.profile_mass,
             tier: tier
           });
         });
