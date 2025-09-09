@@ -8,10 +8,17 @@ const ProfileResultsPage = ({ profileData, onRestart }) => {
 
   const { profile_name, profile_description, all_profiles, personalized_message } = profileData;
 
-  // Sort profiles by score for display
-  const sortedProfiles = Object.entries(all_profiles)
+    // Calculate total score for percentage calculation
+    const totalScore = Object.values(all_profiles).reduce((sum, value) => sum + value, 0);
+
+    // Sort profiles by score and calculate percentages
+    const sortedProfiles = Object.entries(all_profiles)
     .sort(([,a], [,b]) => b - a)
-    .map(([key, value]) => ({ key, value }));
+    .map(([key, value]) => ({ 
+        key, 
+        rawValue: value,
+        percentage: (value / totalScore) * 100 
+    }));
 
   return (
     <div className="profile-results-page">
@@ -29,18 +36,18 @@ const ProfileResultsPage = ({ profileData, onRestart }) => {
         <div className="profile-scores">
           <h3>Profil Analizi</h3>
           <div className="scores-grid">
-            {sortedProfiles.map(({ key, value }) => (
+            {sortedProfiles.map(({ key, rawValue, percentage }) => (
               <div key={key} className="score-item">
                 <div className="score-bar">
-                  <div 
+                    <div 
                     className="score-fill"
-                    style={{ width: `${(value / 100) * 100}%` }}
-                  ></div>
+                    style={{ width: `${percentage}%` }}
+                    ></div>
                 </div>
-                <div className="score-info">
-                  <span className="score-label">{key.replace('_', ' ').toUpperCase()}</span>
-                  <span className="score-value">{Math.round(value)}%</span>
-                </div>
+                    <div className="score-info">
+                        <span className="score-label">{key.replace('_', ' ').toUpperCase()}</span>
+                        <span className="score-value">{Math.round(percentage)}%</span>
+                    </div>
               </div>
             ))}
           </div>

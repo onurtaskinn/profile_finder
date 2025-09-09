@@ -188,27 +188,25 @@
 }
 
 .reset-button {
-  background: rgba(108, 117, 125, 0.1);
-  color: #6c757d;
-  border: 2px solid #6c757d;
+  background: linear-gradient(45deg, #DC143C, #B91C3C);
+  color: white;
+  box-shadow: 0 4px 16px rgba(220, 20, 60, 0.4);
 }
 
 .reset-button:hover {
-  background: #6c757d;
-  color: white;
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(220, 20, 60, 0.6);
 }
 
 .restart-button {
-  background: rgba(220, 20, 60, 0.1);
-  color: #DC143C;
-  border: 2px solid #DC143C;
+  background: linear-gradient(45deg, #DC143C, #B91C3C);
+  color: white;
+  box-shadow: 0 4px 16px rgba(220, 20, 60, 0.4);
 }
 
 .restart-button:hover {
-  background: #DC143C;
-  color: white;
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(220, 20, 60, 0.6);
 }
 
 /* Responsive Design */
