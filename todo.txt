@@ -1,0 +1,4 @@
+1 - bu courseların course_duration,  course_image_url ve course_description larını hangi db tablosundan alabilirim. Veya hazırda çıkartılmış bir excel dosyası var mı ?
+
+2 - Female ve male olarak her profil özelliği için 2 farklı image var. Bu durumda kullanıcının kim olduğunu sorduğum bir giriş ekranı tasarlayıp orada gender bilgisini de mi almalıyım ?  
+
