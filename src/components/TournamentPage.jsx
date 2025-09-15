@@ -256,7 +256,7 @@ const TournamentPage = ({
                 >
                   <div className="course-image">
                     <img 
-                      src={currentMatch.course1.image} 
+                      src={`${process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000'}${currentMatch.course1.image}`}
                       alt={currentMatch.course1.name}
                       onError={(e) => {
                         e.target.src = 'https://via.placeholder.com/280x200/FF8C00/FFFFFF?text=' + 
@@ -281,7 +281,7 @@ const TournamentPage = ({
                 >
                   <div className="course-image">
                     <img 
-                      src={currentMatch.course2.image} 
+                      src={`${process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000'}${currentMatch.course2.image}`}
                       alt={currentMatch.course2.name}
                       onError={(e) => {
                         e.target.src = 'https://via.placeholder.com/280x200/FF8C00/FFFFFF?text=' + 
