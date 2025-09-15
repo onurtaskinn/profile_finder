@@ -1,7 +1,7 @@
 import React from 'react';
 import './LandingPage.css';
 
-const LandingPage = ({ onStartTournament }) => {
+const LandingPage = ({ onStartTournament, isLoading }) => {
   return (
     <div className="landing-page">
       <div className="landing-container">
@@ -47,8 +47,9 @@ const LandingPage = ({ onStartTournament }) => {
             <button 
               className="start-button"
               onClick={onStartTournament}
+              disabled={isLoading}
             >
-              <span className="start-text">Başla</span>
+              <span className="start-text">{isLoading ? 'Yükleniyor...' : 'Başla'}</span>
               <span className="start-arrow">→</span>
             </button>
             <p className="landing-note">

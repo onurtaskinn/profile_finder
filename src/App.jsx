@@ -7,8 +7,7 @@ import TournamentPage from './components/TournamentPage';
 import TierlistPage from './components/TierlistPage'
 import ProfileResultsPage from './components/ProfileResultsPage';
 
-// Import data and logic
-import { courses } from './data/courses';
+
 import { 
   createInitialBracket, 
   advanceWinner, 
@@ -29,11 +28,32 @@ function App() {
   const [originalTierList, setOriginalTierList] = useState(null);
   const [profileData, setProfileData] = useState(null);
 
+  // Add loading state
+  const [isLoading, setIsLoading] = useState(false);
+
   // Start tournament - called from Landing page
-  const startTournament = () => {
-    const initialBracket = createInitialBracket(courses);
-    setTournamentBracket(initialBracket);
-    setCurrentPage('tournament');
+  const startTournament = async () => {
+    setIsLoading(true);
+    try {
+      const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000';
+      const response = await fetch(`${API_URL}/get-tournament-courses`);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      const courses = data.courses;
+      
+      const initialBracket = createInitialBracket(courses);
+      setTournamentBracket(initialBracket);
+      setCurrentPage('tournament');
+    } catch (error) {
+      console.error('Error fetching tournament courses:', error);
+      alert(`Failed to load courses: ${error.message}`);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Handle course selection in tournament
@@ -72,7 +92,8 @@ function App() {
     setTournamentBracket(null);
     setTierList(null);
     setOriginalTierList(null);
-    setProfileData(null); 
+    setProfileData(null);
+    setIsLoading(false); // Reset loading state
   };
 
   // Render current page
@@ -82,10 +103,18 @@ function App() {
         return (
           <LandingPage 
             onStartTournament={startTournament}
+            isLoading={isLoading}
           />
         );
       
       case 'tournament':
+        if (isLoading) {
+          return (
+            <div className="tournament-loading">
+              <h2>Turnuva kursları yükleniyor...</h2>
+            </div>
+          );
+        }
         return (
           <TournamentPage 
             bracket={tournamentBracket}
