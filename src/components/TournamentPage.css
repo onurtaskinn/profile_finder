@@ -12,12 +12,13 @@
 /* Header Section */
 .tournament-header {
   position: absolute;
-  top: 2rem;
+  top: 1rem;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
   z-index: 10;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgb(255, 255, 255);
+  border: #2c3e50 5px solid;
   padding: 1rem 2rem;
   border-radius: 16px;
   backdrop-filter: blur(10px);
@@ -41,15 +42,16 @@
 /* Main Tournament Container */
 .tournament-container {
   display: grid;
-  grid-template-columns: 40% 60%;
+  grid-template-rows: 60% 40%;
   height: 100vh;
   position: relative;
+  background: linear-gradient(to bottom, #DC143C 0%, #B91C3C 30%, #f5f7fa 70%, #ffffff 100%);
 }
 
 /* Left Panel - Tournament Bracket */
 .bracket-panel {
-  background: linear-gradient(135deg, #DC143C, #B91C3C);
-  padding: 2rem;
+  background: transparent;
+  padding: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,42 +68,10 @@
   justify-content: center;
 }
 
-.bracket-title {
-  color: white;
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
-  text-align: center;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.bracket-placeholder {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  padding: 2rem;
-  text-align: center;
-  color: white;
-  backdrop-filter: blur(10px);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-}
-
-.bracket-placeholder p {
-  margin-bottom: 1rem;
-  font-size: 1.1rem;
-}
-
-.bracket-info {
-  margin-top: 1rem;
-}
-
-.bracket-info p {
-  margin: 0.5rem 0;
-  font-weight: 500;
-}
-
-/* Right Panel - Voting Area */
+/* Bottom Panel - Voting Area */
 .voting-panel {
-  background: linear-gradient(135deg, #f5f7fa, #ffffff);
-  padding: 2rem 1.5rem;
+  background: transparent;
+  padding: 1rem 1.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -129,13 +99,15 @@
 .course-cards {
   display: flex;
   align-items: center;
-  gap: 3rem;
+  margin-bottom: 6rem;
+  margin-top: 1rem;
+  gap: 10rem;
   justify-content: center;
 }
 
 .course-card {
-  width: 280px;
-  height: 320px;
+  width: 250px;
+  height: 250px;
   background: #FFFFFF;
   border-radius: 20px;
   border: 3px solid #B91C3C;
@@ -179,7 +151,7 @@
   height: 30%;
   background: #DC143C;
   color: #FFFFFF;
-  font-size: 1.3rem;
+  font-size: 1rem;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -203,7 +175,7 @@
   font-size: 2.5rem;
   font-weight: bold;
   color: #2c3e50;
-  animation: pulse 2s infinite;
+  animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
@@ -221,7 +193,7 @@
 /* Match Info */
 .match-info {
   text-align: center;
-  margin-top: 4rem;
+  /* margin-top: 0rem; */
 }
 
 .match-info p {
@@ -234,7 +206,7 @@
 .progress-container {
   position: absolute;
   bottom: 1rem;
-  left: 70%;
+  left: 50%;
   transform: translateX(-50%);
   width: 40%;
   display: flex;
@@ -373,7 +345,7 @@
   flex-direction: column;
   justify-content: space-around;
   height: 100%;
-  margin: 0 2px;
+  margin: 0 2%;
 }
 
 .bracket-match {
@@ -388,20 +360,36 @@
   gap: 2px;
 }
 
+.final-match .match-pair {
+  flex-direction: row;
+  gap: 100px;
+  align-items: center;
+}
+
 .course-node {
-  width: 70px !important;
+  width: 50px !important;
   height: 50px !important;
   border: 1px solid #580000;
-  border-radius: 6px;
+  border-radius: 50%;
   background: #FFE8ED;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   transition: all 0.3s ease;
-  padding: 1px;
-  gap: 1px;
+  padding: 0;
+}
+
+.course-node-image {
+  width: 120%;
+  height: 120%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+
+.course-node:hover .course-node-image {
+  transform: scale(1.05);
 }
 
 
@@ -452,8 +440,9 @@
 
 /* Final match larger nodes */
 .final-match .course-node {
-  width: 110px !important;
-  height: 110px !important;
+  width: 100px !important;
+  height: 100px !important;
+  border-width: 4px;
 }
 
 .final-match .course-node-name {

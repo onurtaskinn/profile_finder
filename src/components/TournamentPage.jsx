@@ -27,7 +27,8 @@ const TournamentPage = ({
     }
   };
 
-  // Helper function to render a course node with name instead of image
+
+  // Helper function to render a course node with image
   const renderCourseNode = (course, isWinner = false, isCurrentMatch = false) => {
     if (!course) {
       return <div className="course-node empty"></div>;
@@ -35,7 +36,15 @@ const TournamentPage = ({
     
     return (
       <div className={`course-node ${isWinner ? 'winner' : ''} ${isCurrentMatch ? 'current-match' : ''}`}>
-        <span className="course-node-name">{course.name}</span>
+        <img 
+          src={`${process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000'}${course.image}`}
+          alt={course.name}
+          className="course-node-image"
+          onError={(e) => {
+            e.target.src = 'https://via.placeholder.com/60x40/FF8C00/FFFFFF?text=' + 
+                          encodeURIComponent(course.name.substring(0, 3));
+          }}
+        />
       </div>
     );
   };
@@ -100,7 +109,6 @@ const TournamentPage = ({
         {/* Left Panel - Tournament Bracket */}
         <div className="bracket-panel">
           <div className="bracket-content">
-            {/* <h3 className="bracket-title">Tournament Bracket</h3> */}
             <div className="tournament-bracket">
               {/* Round 1 Left Side */}
               <div className="bracket-column round-1-left">
@@ -241,10 +249,10 @@ const TournamentPage = ({
 
         {/* Right Panel - Voting Area */}
         <div className="voting-panel">
-          <div className="tournament-header">
+          {/* <div className="tournament-header">
               <h1 className="round-title">{roundInfo?.name || 'Round'}</h1>
               <p className="round-subtitle">{roundInfo?.subtitle || 'Pick your favorite'}</p>
-          </div>            
+          </div>             */}
           <div className="voting-content">
             <div className="match-container">
               {/* Course Cards */}
@@ -293,11 +301,6 @@ const TournamentPage = ({
                     <span>{currentMatch.course2.name}</span>
                   </div>
                 </div>
-              </div>
-
-              {/* Match Info */}
-              <div className="match-info">
-                <p>Hangi kursu tercih edersiniz?</p>
               </div>
             </div>
           </div>
