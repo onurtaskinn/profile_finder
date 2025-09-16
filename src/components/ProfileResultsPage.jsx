@@ -6,7 +6,7 @@ const ProfileResultsPage = ({ profileData, onRestart }) => {
     return <div>Loading profile results...</div>;
   }
 
-  const { profile_name, profile_description, all_profiles, personalized_message } = profileData;
+  const { profile_name, profile_description, female_image_url, male_image_url, all_profiles } = profileData;
 
     // Calculate total score for percentage calculation
     const totalScore = Object.values(all_profiles).reduce((sum, value) => sum + value, 0);
@@ -32,6 +32,18 @@ const ProfileResultsPage = ({ profileData, onRestart }) => {
           </div>
         </div>
 
+        {/* Profile Image Section */}
+        <div className="profile-image-section">
+          <img 
+            src={female_image_url} 
+            alt={profile_name}
+            className="profile-image"
+            onError={(e) => {
+              e.target.src = 'https://via.placeholder.com/300x400/DC143C/FFFFFF?text=Profile+Image';
+            }}
+          />
+        </div>        
+
         {/* Profile Scores Section */}
         <div className="profile-scores">
           <h3>Profil Analizi</h3>
@@ -53,15 +65,6 @@ const ProfileResultsPage = ({ profileData, onRestart }) => {
           </div>
         </div>
 
-        {/* Personalized Message Section */}
-        <div className="personalized-message">
-          <h3>Kişiselleştirilmiş Analiz</h3>
-          <div className="message-content">
-            {personalized_message.split('\n\n').map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
-          </div>
-        </div>
 
         {/* Action Button */}
         <div className="results-actions">
