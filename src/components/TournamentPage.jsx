@@ -9,6 +9,19 @@ const TournamentPage = ({
   roundInfo 
 }) => {
 
+      // Add this after the existing helper functions
+    const playSelectionSound = () => {
+      try {
+        const audio = new Audio('/sounds/course-select.mp3');
+        audio.volume = 0.5; // Adjust volume (0.0 to 1.0)
+        audio.play().catch(error => {
+          console.log('Audio play failed:', error);
+        });
+      } catch (error) {
+        console.log('Audio creation failed:', error);
+      }
+    };
+
     // Helper function to count completed matches
     const getCompletedMatches = (bracket) => {
     if (!bracket) return 0;
@@ -23,6 +36,7 @@ const TournamentPage = ({
   // Handle course selection
   const handleCourseSelect = (courseId) => {
     if (currentMatch && onSelectCourse) {
+      playSelectionSound(); 
       onSelectCourse(currentMatch.id, courseId);
     }
   };
